@@ -11,7 +11,7 @@ export default defineConfig({
       userscript: {
         icon: 'https://vitejs.dev/logo.svg',
         namespace: 'npm/vite-plugin-monkey',
-        match: ['https://detail.tmall.com/*','https://main.m.taobao.com/security-h5-detail/*'],
+        match: ['https://detail.tmall.com/*','https://main.m.taobao.com/security-h5-detail/*','https://uland.taobao.com/coupon/*'],
       },
       build: {
         externalGlobals: {
