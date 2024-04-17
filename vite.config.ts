@@ -36,7 +36,7 @@ export default defineConfig({
       userscript: {
         name: '小组增强',
         description: '过滤无效评论，优化PC网页样式',
-        icon: 'https://vitejs.dev/logo.svg',
+        icon: 'https://img1.doubanio.com/favicon.ico',
         namespace: 'npm/vite-plugin-monkey',
         match: ['https://www.douban.com/group/*'],
       },
@@ -61,7 +61,7 @@ export default defineConfig({
 //       userscript: {
 //         name: '线报增强',
 //         description: '过滤无效评论，移除广告，移除不感兴趣作业，优化跳转',
-//         icon: 'https://vitejs.dev/logo.svg',
+//         icon: 'http://new.xianbao.fun/favicon.ico',
 //         namespace: 'npm/vite-plugin-monkey',
 //         match: ['http://new.xianbao.fun/douban-maizu/*','http://new.xianbao.fun/category-douban-maizu/*'],
 //       },

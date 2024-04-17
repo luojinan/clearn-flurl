@@ -91,20 +91,20 @@ const setQa = () => {
         }
       })
 
-      const qaHtml = qaList.map(item => `<div class="mb-2 collapse-arrow collapse bg-primary">
+      const qaHtml = qaList.filter(item => !/^(.)\1*$/i.test(item.answer)).map(item => `<div class="mb-2 collapse-arrow collapse bg-primary">
   <input type="checkbox" checked /> 
-  <div class="collapse-title text-xl font-medium">
+  <div style="color: #fff; user-select: text" class="collapse-title text-xl font-medium">
     ${item.question}
   </div>
   <div class="collapse-content"> 
-    <p>${item.answer}</p>
+    <p style="color: #fff; user-select: text; font-size: 14px; font-weight: 600;">${item.answer}</p>
   </div>
 </div>`).join('')
 
       const newElement = document.createElement('div');
       newElement.innerHTML = qaHtml;
       insertElementBeforeFirstRendered('rendered', newElement);
-    }, 600);
+    }, 300);
   }
 }
 
