@@ -1,13 +1,11 @@
 // ==UserScript==
-// @name         清除返利
+// @name         小组增强
 // @namespace    npm/vite-plugin-monkey
 // @version      0.0.1
 // @author       monkey
-// @description  清除购物软件返利参数
+// @description  过滤无效评论，优化PC网页样式
 // @icon         https://vitejs.dev/logo.svg
-// @match        https://detail.tmall.com/*
-// @match        https://main.m.taobao.com/security-h5-detail/*
-// @match        https://uland.taobao.com/coupon/*
+// @match        https://www.douban.com/group/*
 // @require      https://registry.npmmirror.com/vue/3.4.22/files/dist/vue.global.prod.js
 // @grant        GM_addStyle
 // ==/UserScript==
@@ -28,53 +26,95 @@
     });
     return paramsObject;
   };
-  function cleanHtml() {
-    const elementToKeepId = "clean-flurl";
-    const bodyElement = document.body;
-    if (bodyElement) {
-      const childElements = Array.from(bodyElement.children);
-      childElements.forEach((child) => {
-        if (child.id !== elementToKeepId) {
-          child.remove();
-        }
-      });
-    }
+  function removeDomByList(list) {
+    list.forEach((item) => {
+      var _a;
+      (_a = document.querySelectorAll(item)) == null ? void 0 : _a.forEach((item2) => item2.remove());
+    });
   }
-  const _hoisted_1 = {
-    key: 0,
-    class: "fixed top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center bg-neutral-800 text-white"
-  };
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("p", null, "检测到 fl 链接，请前往干净链接查看", -1);
+  const filterCommentText = /(d{2,})|谢谢姐妹|滴滴|谢谢|!|！|\s|(^[a-zA-Z]+$)|(^\d+$)/gi;
+  const _hoisted_1 = { class: "fixed bottom-8 right-2 btn btn-primary" };
   const _sfc_main = /* @__PURE__ */ vue.defineComponent({
     __name: "App",
     setup(__props) {
-      const urlParams = getUrlParams();
-      const isFlUrl = vue.ref(Object.keys(urlParams).length > 1);
-      vue.onMounted(() => {
-        console.log("✨ clean flurl 脚本 ✨");
-        if (isFlUrl.value) {
-          cleanHtml();
+      const fixPhone = () => {
+        const body = document.querySelector("body");
+        if (body) {
+          body.style.boxSizing = "border-box";
+          body.style.width = "100vw";
+          body.style.maxWidth = "800px";
+          body.style.padding = "10px 10px 0 10px";
         }
-      });
-      const toCleanUrl = () => {
-        const [originUrl] = location.href.split("?");
-        location.href = `${originUrl}?id=${urlParams.id}`;
+        const a = document.querySelector(".topic-content");
+        if (a) {
+          a.style.display = "flex";
+          a.style.flexDirection = "column";
+        }
+        const wrapper = document.getElementById("wrapper");
+        if (wrapper) {
+          wrapper.style.width = "100%";
+        }
+        const doc = document.querySelector(".topic-doc");
+        if (doc) {
+          doc.style.width = "100%";
+          doc.style.padding = "10px";
+          doc.style.boxSizing = "border-box";
+        }
       };
+      const removeAd = () => {
+        const contentDiv = document.getElementById("content");
+        const articleDiv = document.querySelector(".article");
+        if (articleDiv && contentDiv) {
+          contentDiv.appendChild(articleDiv);
+        }
+        const strList = [".grid-16-8", ".sns-bar", "#db-nav-group", "#db-global-nav", ".comment-form", "#footer", "#landing-bar", ".txd"];
+        removeDomByList(strList);
+      };
+      const removeComment = () => {
+        let count2 = 0;
+        document.querySelectorAll(".reply-content").forEach((item) => {
+          var _a, _b;
+          const dom = item;
+          const content = dom.innerText.replace(filterCommentText, "");
+          if (!content || ["d", "D", "牛", "，", ","].includes(content)) {
+            count2++;
+            (_b = (_a = dom.parentElement) == null ? void 0 : _a.parentElement) == null ? void 0 : _b.remove();
+          } else {
+            dom.innerText = content;
+          }
+        });
+        return count2;
+      };
+      const setQa = () => {
+        const qaData = getUrlParams("qa");
+        if (qaData) {
+          const qaList = JSON.parse(qaData);
+          setTimeout(() => {
+            document.querySelectorAll(".question-content").forEach((item, index) => {
+              if (qaList[index]) {
+                item.innerHTML = qaList[index].answer;
+              }
+            });
+          }, 600);
+        }
+      };
+      const count = vue.ref(0);
+      vue.onMounted(() => {
+        console.log("✨ douban-group 脚本 ✨");
+        fixPhone();
+        removeAd();
+        count.value = removeComment();
+        setQa();
+      });
       return (_ctx, _cache) => {
-        return isFlUrl.value ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
-          _hoisted_2,
-          vue.createElementVNode("button", {
-            class: "btn btn-primary mt-10",
-            onClick: toCleanUrl
-          }, "前往干净链接")
-        ])) : vue.createCommentVNode("", true);
+        return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, " ✨ 已移除无效评论" + vue.toDisplayString(count.value) + "条 ", 1);
       };
     }
   });
   vue.createApp(_sfc_main).mount(
     (() => {
       const app = document.createElement("div");
-      app.setAttribute("id", "clean-flurl");
+      app.setAttribute("id", "douban-group");
       document.body.append(app);
       return app;
     })()

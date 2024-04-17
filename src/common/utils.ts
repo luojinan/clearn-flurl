@@ -19,22 +19,33 @@ export const getUrlParams = (targetKey?: string, url?: string): string | Record<
 
 // 怎么移除都排除不了自身，自身内容也会被移除，因为vue是通过js操作dom的，自身内容就是空的，需要还原得用js还原
 export function cleanHtml() {
+  // 选择要保留的元素的 ID
+  const elementToKeepId = 'clean-flurl';
 
-  // const headScripts = document.head.querySelectorAll('script');
-  // headScripts.forEach(script => script.remove());
+  // 获取 body 元素
+  const bodyElement = document.body;
 
-  // const scripts = document.querySelectorAll('script');
-  // scripts.forEach(script => script.remove());
+  if (bodyElement) {
+    // 遍历 body 的直接子元素，并移除除了指定 ID 之外的所有元素
+    const childElements = Array.from(bodyElement.children);
 
-  const cleanDom = document.body.querySelector('#cleanurl');
-
-  const elements = document.body.querySelectorAll('div');
-  elements.forEach(element => element.remove());
-
-  console.log(cleanDom);
-
-  // const headScripts = document.head.querySelectorAll('script');
-  // headScripts.forEach(script => script.remove());
-
-  document.body.append(cleanDom!);
+    childElements.forEach(child => {
+      if (child.id !== elementToKeepId) {
+        // 如果子元素的 ID 不是要保留的 ID，则移除该子元素
+        child.remove();
+      }
+    });
+  }
 }
+
+
+/**
+ * 根据提供的元素选择器列表，移除文档中的对应DOM元素。
+ * @param list 包含元素选择器字符串的数组，如['.class', '#id']。
+ */
+export function removeDomByList(list: string[]) {
+  // 遍历提供的选择器列表，并尝试移除每个匹配的元素
+  list.forEach((item) => {
+    document.querySelectorAll(item)?.forEach(item=>item.remove())
+  });
+};
