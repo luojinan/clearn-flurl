@@ -40,7 +40,7 @@ const removeAd = () => {
     contentDiv.appendChild(articleDiv);
   }
 
-  const strList = ['.grid-16-8', '.sns-bar', '#db-nav-group', '#db-global-nav', '.comment-form', '#footer', '#landing-bar', '.txd']
+  const strList = ['.grid-16-8', '.sns-bar', '#db-nav-group', '#db-global-nav', '.comment-form', '#footer', '#landing-bar', '.txd', '.topic-opt', '#link-report_group']
   removeDomByList(strList)
 }
 
@@ -59,16 +59,51 @@ const removeComment = () => {
   return count
 }
 
-const setQa = ()=>{
+function insertElementBeforeFirstRendered(className: string, newElement: HTMLElement) {
+  // 查找第一个具有指定类名的元素
+  const firstRenderedElement = document.querySelector(`.${className}`);
+
+  if (firstRenderedElement) {
+    // 创建要插入的新元素
+    // 此处的 newElement 是调用方传入的新元素实例
+    // 例如：const newElement = document.createElement('div');
+    //       newElement.textContent = 'New Element';
+
+    // 获取第一个具有指定类名元素的父级元素
+    const parentElement = firstRenderedElement.parentElement;
+
+    if (parentElement) {
+      // 在父级元素中，在第一个具有指定类名元素之前插入新元素
+      parentElement.insertBefore(newElement, firstRenderedElement);
+    }
+  }
+}
+
+const setQa = () => {
   const qaData = getUrlParams('qa') as string
   if (qaData) {
-    const qaList = JSON.parse(qaData)
+    const qaList = JSON.parse(qaData) as { question: string, answer: string }[]
+
     setTimeout(() => {
-      document.querySelectorAll('.question-content').forEach((item, index) => {
-        if (qaList[index]) {
-          item.innerHTML = qaList[index].answer
+      document.querySelectorAll('.question-content').forEach((item) => {
+        if (item) {
+          item.parentElement?.remove()
         }
       })
+
+      const qaHtml = qaList.map(item => `<div class="mb-2 collapse-arrow collapse bg-primary">
+  <input type="checkbox" checked /> 
+  <div class="collapse-title text-xl font-medium">
+    ${item.question}
+  </div>
+  <div class="collapse-content"> 
+    <p>${item.answer}</p>
+  </div>
+</div>`).join('')
+
+      const newElement = document.createElement('div');
+      newElement.innerHTML = qaHtml;
+      insertElementBeforeFirstRendered('rendered', newElement);
     }, 600);
   }
 }
@@ -87,7 +122,6 @@ onMounted(() => {
 
 <template>
   <div class="fixed bottom-8 right-2 btn btn-primary">
-    ✨ 已移除无效评论{{count}}条
+    ✨ 已移除无效评论{{ count }}条
   </div>
 </template>
-

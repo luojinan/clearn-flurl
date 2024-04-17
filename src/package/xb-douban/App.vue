@@ -74,6 +74,9 @@ onMounted(() => {
   const originHref = originA?.getAttribute('href'); // 获取原始的 href
   console.log('设置新链接',originHref)
   originA?.setAttribute('href', `${originHref}?qa=${encodeURIComponent(JSON.stringify(qaList))}`);
+  if(originHref) {
+    window.location.replace(`${originHref}?qa=${encodeURIComponent(JSON.stringify(qaList))}`)
+  }
 })
 
 </script>
