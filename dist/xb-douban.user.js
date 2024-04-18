@@ -7,7 +7,7 @@
 // @icon         http://new.xianbao.fun/favicon.ico
 // @match        http://new.xianbao.fun/douban-maizu/*
 // @match        http://new.xianbao.fun/category-douban-maizu/*
-// @require      https://registry.npmmirror.com/vue/3.4.14/files/dist/vue.global.prod.js
+// @require      https://registry.npmmirror.com/vue/3.4.22/files/dist/vue.global.prod.js
 // @grant        GM_addStyle
 // ==/UserScript==
 
@@ -16,52 +16,10 @@
 (function (vue) {
   'use strict';
 
-  function removeDomByList(list) {
-    list.forEach((item) => {
-      var _a;
-      (_a = document.querySelectorAll(item)) == null ? void 0 : _a.forEach((item2) => item2.remove());
-    });
-  }
-  const filterCommentText = /(d{2,})|谢谢姐妹|滴滴|谢谢|!|！|\s|(^[a-zA-Z]+$)|(^\d+$)/gi;
-  const NOT_NEED_LIST = [
-    "日抛",
-    "精油",
-    "精华",
-    "香水",
-    "车走",
-    "面霜",
-    "身体乳",
-    "申删",
-    "母婴",
-    "隔离",
-    "美瞳",
-    "【删】",
-    "【交流】",
-    "月抛",
-    "腮红",
-    "🚗走"
-  ];
   const _hoisted_1 = { class: "fixed bottom-8 right-2 btn btn-primary" };
   const _sfc_main = /* @__PURE__ */ vue.defineComponent({
     __name: "App",
     setup(__props) {
-      const removeComment = () => {
-        let count2 = 0;
-        document.querySelectorAll(".c-neirong").forEach((dom) => {
-          const list = dom.childNodes;
-          list.forEach((item) => {
-            var _a, _b;
-            if (item.nodeType === Node.TEXT_NODE && item.nodeValue) {
-              item.nodeValue = (_a = item.nodeValue) == null ? void 0 : _a.replace(filterCommentText, "");
-              if (!item.nodeValue || ["d", "D", "牛", "，", ","].includes(item.nodeValue)) {
-                count2++;
-                (_b = dom.closest(".ul")) == null ? void 0 : _b.remove();
-              }
-            }
-          });
-        });
-        return count2;
-      };
       const todoubanWithAnswer = () => {
         const questionList = [];
         document.querySelectorAll(".g-biaoti").forEach((item) => {
@@ -76,32 +34,7 @@
       };
       const count = vue.ref(0);
       vue.onMounted(() => {
-        var _a, _b, _c;
         console.log("✨ xb douban 脚本 ✨");
-        const strList = [".nav2-ul", ".article-list.top", ".pop-hongbao-on", ".tishi", ".xiangguan", "aside", "#commentbox", ".footer"];
-        removeDomByList(strList);
-        setTimeout(() => {
-          removeDomByList(strList);
-        }, 1e3);
-        (_b = (_a = document.querySelector(".copyright")) == null ? void 0 : _a.parentElement) == null ? void 0 : _b.remove();
-        (_c = document.querySelector(".art-copyright a")) == null ? void 0 : _c.setAttribute("target", "_self");
-        let num = 0;
-        const zoyeList = document.querySelectorAll(".article-list .title a");
-        if (zoyeList.length) {
-          zoyeList.forEach((item) => {
-            var _a2;
-            item.setAttribute("target", "_self");
-            const dom = item;
-            const isNoNeed = NOT_NEED_LIST.some((noNeed) => dom.innerText.includes(noNeed));
-            if (isNoNeed) {
-              num += 1;
-              (_a2 = dom.closest(".article-list")) == null ? void 0 : _a2.remove();
-            }
-          });
-        } else {
-          num = removeComment();
-        }
-        count.value = num;
         const qaList = todoubanWithAnswer();
         const originA = document.querySelector(".art-copyright a");
         const originHref = originA == null ? void 0 : originA.getAttribute("href");

@@ -24,24 +24,21 @@ interface QaItem {
   question?: string | null
   answer?: string | null
 }
-const todoubanWithAnswer = (): QaItem[]=>{
-  const questionList:QaItem[] = []
-  document.querySelectorAll('.g-biaoti').forEach(item=>{
+const todoubanWithAnswer = (): QaItem[] => {
+  const questionList: QaItem[] = []
+  document.querySelectorAll('.g-biaoti').forEach(item => {
     questionList.push({
       question: item.textContent
     })
   })
-  document.querySelectorAll('.g-neirong').forEach((item,index)=>{
+  document.querySelectorAll('.g-neirong').forEach((item, index) => {
     questionList[index].answer = item.textContent
   })
   return questionList
 }
 
 const count = ref(0)
-
-onMounted(() => {
-  console.log('✨ xb douban 脚本 ✨')
-
+const clearWeb = () => {
   const strList = ['.nav2-ul', '.article-list.top', '.pop-hongbao-on', '.tishi', '.xiangguan', 'aside', '#commentbox', '.footer']
   removeDomByList(strList)
   // 移除元素 如fl链接是异步生成的，此时可能没有移除成功，1s后尝试二次移除
@@ -49,9 +46,9 @@ onMounted(() => {
     removeDomByList(strList)
   }, 1000);
   document.querySelector('.copyright')?.parentElement?.remove()
-  
+
   document.querySelector('.art-copyright a')?.setAttribute('target', '_self');
-  
+
   let num = 0
   const zoyeList = document.querySelectorAll('.article-list .title a')
   if (zoyeList.length) {
@@ -68,13 +65,18 @@ onMounted(() => {
     num = removeComment()
   }
   count.value = num
-  
+}
+
+onMounted(() => {
+  console.log('✨ xb douban 脚本 ✨')
+  // clearWeb()
+
   const qaList = todoubanWithAnswer()
   const originA = document.querySelector('.art-copyright a')
   const originHref = originA?.getAttribute('href'); // 获取原始的 href
-  console.log('设置新链接',originHref)
+  console.log('设置新链接', originHref)
   originA?.setAttribute('href', `${originHref}?qa=${encodeURIComponent(JSON.stringify(qaList))}`);
-  if(originHref) {
+  if (originHref) {
     window.location.replace(`${originHref}?qa=${encodeURIComponent(JSON.stringify(qaList))}`)
   }
 })
@@ -83,7 +85,6 @@ onMounted(() => {
 
 <template>
   <div class="fixed bottom-8 right-2 btn btn-primary">
-    ✨ 已移除无效评论{{count}}条
+    ✨ 已移除无效评论{{ count }}条
   </div>
 </template>
-
