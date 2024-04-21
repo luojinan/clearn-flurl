@@ -13,7 +13,13 @@ import monkey, { cdn } from 'vite-plugin-monkey';
 //         description: '清除购物软件返利参数',
 //         icon: 'https://vitejs.dev/logo.svg',
 //         namespace: 'npm/vite-plugin-monkey',
-//         match: ['https://detail.tmall.com/*','https://main.m.taobao.com/security-h5-detail/*','https://uland.taobao.com/coupon/*'],
+//         match: [
+//           'https://detail.tmall.com/*',
+//           'https://main.m.taobao.com/security-h5-detail/*',
+//           'https://uland.taobao.com/coupon/*',
+//           'https://item.m.jd.com/product/*',
+//           'https://jingfen.jd.com/*'
+//         ],
 //       },
 //       build: {
 //         fileName: 'clean-flurl.user.js',

@@ -7,7 +7,7 @@
 // @icon         http://new.xianbao.fun/favicon.ico
 // @match        http://new.xianbao.fun/douban-maizu/*
 // @match        http://new.xianbao.fun/category-douban-maizu/*
-// @require      https://registry.npmmirror.com/vue/3.4.22/files/dist/vue.global.prod.js
+// @require      https://registry.npmmirror.com/vue/3.4.14/files/dist/vue.global.prod.js
 // @grant        GM_addStyle
 // ==/UserScript==
 
@@ -27,8 +27,9 @@
             question: item.textContent
           });
         });
-        document.querySelectorAll(".g-neirong").forEach((item, index) => {
-          questionList[index].answer = item.textContent;
+        document.querySelectorAll(".g-neirong").forEach((neifongDom, index) => {
+          const nrDom = neifongDom;
+          questionList[index].answer = nrDom.outerText.split("\n").filter((item) => !!item.trim() && !item.includes("智能AI助手")).join("");
         });
         return questionList;
       };

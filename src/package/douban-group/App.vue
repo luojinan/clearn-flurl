@@ -79,6 +79,15 @@ function insertElementBeforeFirstRendered(className: string, newElement: HTMLEle
   }
 }
 
+const str2atag = (str: string) => {
+  // 使用正则表达式匹配超链接
+const regex = /https?:\/\/\S+/gi;
+const replacedString = str.replace(regex, function(match) {
+  return `<a href="${match}" style="color:#fff;" target="_blank">${match}</a>`;
+});
+return replacedString;
+}
+
 const setQa = () => {
   const qaData = getUrlParams('qa') as string
   if (qaData) {
@@ -97,7 +106,7 @@ const setQa = () => {
     ${item.question}
   </div>
   <div class="collapse-content"> 
-    <p style="color: #fff; user-select: text; font-size: 14px; font-weight: 600;">${item.answer}</p>
+    <p style="color: #fff; user-select: text; font-size: 14px; font-weight: 600;">${str2atag(item.answer)}</p>
   </div>
 </div>`).join('')
 

@@ -31,8 +31,9 @@ const todoubanWithAnswer = (): QaItem[] => {
       question: item.textContent
     })
   })
-  document.querySelectorAll('.g-neirong').forEach((item, index) => {
-    questionList[index].answer = item.textContent
+  document.querySelectorAll('.g-neirong').forEach((neifongDom, index) => {
+    const nrDom = neifongDom as HTMLElement
+    questionList[index].answer = nrDom.outerText.split('\n').filter(item => !!item.trim() && !item.includes('智能AI助手')).join('')
   })
   return questionList
 }

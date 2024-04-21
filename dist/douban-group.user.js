@@ -94,6 +94,13 @@
           }
         }
       }
+      const str2atag = (str) => {
+        const regex = /https?:\/\/\S+/gi;
+        const replacedString = str.replace(regex, function(match) {
+          return `<a href="${match}" style="color:#fff;" target="_blank">${match}</a>`;
+        });
+        return replacedString;
+      };
       const setQa = () => {
         const qaData = getUrlParams("qa");
         if (qaData) {
@@ -111,7 +118,7 @@
     ${item.question}
   </div>
   <div class="collapse-content"> 
-    <p style="color: #fff; user-select: text; font-size: 14px; font-weight: 600;">${item.answer}</p>
+    <p style="color: #fff; user-select: text; font-size: 14px; font-weight: 600;">${str2atag(item.answer)}</p>
   </div>
 </div>`).join("");
             const newElement = document.createElement("div");
