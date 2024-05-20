@@ -70,7 +70,7 @@ const clearWeb = () => {
 
 onMounted(() => {
   console.log('✨ xb douban 脚本 ✨')
-  // clearWeb()
+  clearWeb()
 
   const qaList = todoubanWithAnswer()
   const originA = document.querySelector('.art-copyright a')

@@ -34,45 +34,20 @@ import monkey, { cdn } from 'vite-plugin-monkey';
 //   }
 // });
 
-export default defineConfig({
-  plugins: [
-    vue(),
-    monkey({
-      entry: 'src/package/douban-group/main.ts',
-      userscript: {
-        name: '小组增强',
-        description: '过滤无效评论，优化PC网页样式',
-        icon: 'https://img1.doubanio.com/favicon.ico',
-        namespace: 'npm/vite-plugin-monkey',
-        match: ['https://www.douban.com/group/*'],
-      },
-      build: {
-        fileName: 'douban-group.user.js',
-        externalGlobals: {
-          vue: cdn.npmmirror('Vue', 'dist/vue.global.prod.js'),
-        },
-      },
-    }),
-  ],
-  build: {
-    emptyOutDir: false, // 设置打包时不清空 dist 目录
-  }
-});
-
 // export default defineConfig({
 //   plugins: [
 //     vue(),
 //     monkey({
-//       entry: 'src/package/xb-douban/main.ts',
+//       entry: 'src/package/douban-group/main.ts',
 //       userscript: {
-//         name: '线报增强',
-//         description: '过滤无效评论，移除广告，移除不感兴趣作业，优化跳转',
-//         icon: 'http://new.xianbao.fun/favicon.ico',
+//         name: '小组增强',
+//         description: '过滤无效评论，优化PC网页样式',
+//         icon: 'https://img1.doubanio.com/favicon.ico',
 //         namespace: 'npm/vite-plugin-monkey',
-//         match: ['http://new.xianbao.fun/douban-maizu/*','http://new.xianbao.fun/category-douban-maizu/*'],
+//         match: ['https://www.douban.com/group/*'],
 //       },
 //       build: {
-//         fileName: 'xb-douban.user.js',
+//         fileName: 'douban-group.user.js',
 //         externalGlobals: {
 //           vue: cdn.npmmirror('Vue', 'dist/vue.global.prod.js'),
 //         },
@@ -83,3 +58,28 @@ export default defineConfig({
 //     emptyOutDir: false, // 设置打包时不清空 dist 目录
 //   }
 // });
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    monkey({
+      entry: 'src/package/xb-douban/main.ts',
+      userscript: {
+        name: '线报增强',
+        description: '过滤无效评论，移除广告，移除不感兴趣作业，优化跳转',
+        icon: 'http://new.xianbao.fun/favicon.ico',
+        namespace: 'npm/vite-plugin-monkey',
+        match: ['http://new.xianbao.fun/douban-maizu/*','http://new.xianbao.fun/category-douban-maizu/*'],
+      },
+      build: {
+        fileName: 'xb-douban.user.js',
+        externalGlobals: {
+          vue: cdn.npmmirror('Vue', 'dist/vue.global.prod.js'),
+        },
+      },
+    }),
+  ],
+  build: {
+    emptyOutDir: false, // 设置打包时不清空 dist 目录
+  }
+});
