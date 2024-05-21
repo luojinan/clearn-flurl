@@ -86,6 +86,6 @@ onMounted(() => {
 
 <template>
   <div class="fixed bottom-8 right-2 btn btn-primary">
-    ✨ 已移除无效评论{{ count }}条
+    ✨ 已移除不感兴趣作业{{ count }}条
   </div>
 </template>

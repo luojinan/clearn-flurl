@@ -7,7 +7,7 @@
 // @icon         http://new.xianbao.fun/favicon.ico
 // @match        http://new.xianbao.fun/douban-maizu/*
 // @match        http://new.xianbao.fun/category-douban-maizu/*
-// @require      https://registry.npmmirror.com/vue/3.4.14/files/dist/vue.global.prod.js
+// @require      https://registry.npmmirror.com/vue/3.4.22/files/dist/vue.global.prod.js
 // @grant        GM_addStyle
 // ==/UserScript==
 
@@ -40,6 +40,7 @@
     "月抛",
     "腮红",
     "🚗走",
+    "🚗跑",
     "小金管",
     "抗糖小白瓶",
     "眼霜",
@@ -123,7 +124,7 @@
         }
       });
       return (_ctx, _cache) => {
-        return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, " ✨ 已移除无效评论" + vue.toDisplayString(count.value) + "条 ", 1);
+        return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, " ✨ 已移除不感兴趣作业" + vue.toDisplayString(count.value) + "条 ", 1);
       };
     }
   });
